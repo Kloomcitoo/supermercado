@@ -1,0 +1,43 @@
+# Node - Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+frontend/.sass-cache/
+frontend/npm-debug.log*
+frontend/yarn-error.log
+frontend/.env
+
+# Java - Backend
+backend/target/
+backend/.idea/
+backend/*.iml
+backend/.vscode/
+backend/.classpath
+backend/.project
+backend/.settings/
+backend/bin/
+backend/build/
+backend/.gradle/
+backend/gradle/
+
+# Base de datos
+*.sql~
+*.sql.bak
+
+# Sistema
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.swp
+*~
+
+# IDEs
+.vscode/
+.idea/
+*.iml
+
+# Package managers
+package-lock.json
+yarn.lock
+
