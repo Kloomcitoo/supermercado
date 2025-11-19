@@ -15,3 +15,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface empleadoRepository extends JpaRepository<empleado, Long>{
     Optional<empleado> findByEmailAndCedula(String email, String cedula);
 }
+
+

@@ -7,6 +7,12 @@ package com.api.superm.supermercado.Model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import com.api.superm.supermercado.Repository.categoriaPrioridadRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.stereotype.Component;
+
 /**
  *
  * @author mariana01colorado
@@ -70,8 +76,4 @@ public class categoriaPrioridad {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
-    
-    
-    
-    
 }

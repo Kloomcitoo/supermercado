@@ -68,12 +68,28 @@ public class turnoService {
         
         LocalDateTime ahora = LocalDateTime.now();
         
-        // Separar turnos en prioritarios y clientes normales
+        // Primero: clientes normales con 3+ saltos (prioridad absoluta)
+        List<turno> clientesConPrioridadTemporal = enEspera.stream()
+                .filter(this::esClienteNormal)
+                .filter(t -> t.getVecesSaltado() >= 3)
+                .sorted(Comparator.comparing(turno::getFechaCreacion))
+                .toList();
+        
+        if (!clientesConPrioridadTemporal.isEmpty()) {
+            turno siguiente = clientesConPrioridadTemporal.get(0);
+            siguiente.setEstado(estadoTurno.ATENDIDO);
+            siguiente.setFechaLlamado(ahora);
+            turnoRepository.save(siguiente);
+            return Optional.of(siguiente);
+        }
+        
+        // Segundo: turnos prioritarios normales
         List<turno> prioritarios = enEspera.stream()
                 .filter(t -> !esClienteNormal(t))
                 .sorted(Comparator.comparing(turno::getFechaCreacion))
                 .toList();
         
+        // Tercero: clientes normales (incrementar contador de saltos si hay prioritarios)
         List<turno> clientesNormales = enEspera.stream()
                 .filter(this::esClienteNormal)
                 .sorted(Comparator.comparing(turno::getFechaCreacion))
@@ -81,11 +97,17 @@ public class turnoService {
         
         Optional<turno> siguiente;
         
-        // Si hay prioritarios disponibles, llamar al más antiguo
+        // Si hay prioritarios disponibles, llamar al más antiguo y contar saltos de clientes normales
         if (!prioritarios.isEmpty()) {
             siguiente = Optional.of(prioritarios.get(0));
+            
+            // Incrementar contador de saltos para todos los clientes normales en espera
+            clientesNormales.forEach(cliente -> {
+                cliente.setVecesSaltado(cliente.getVecesSaltado() + 1);
+                turnoRepository.save(cliente);
+            });
         } 
-        // Si solo hay clientes normales, llamar al más antiguo
+        // Si no hay prioritarios, llamar al cliente normal más antiguo
         else if (!clientesNormales.isEmpty()) {
             siguiente = Optional.of(clientesNormales.get(0));
         } 

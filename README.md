@@ -36,47 +36,125 @@ Sistema completo de gestión de turnos para supermercado con priorización autom
 - Actualización automática cada 5 segundos
 - Animaciones y transiciones suaves
 
-## 📦 Instalación
+## 📦 Instalación y Ejecución Paso a Paso
 
-### Prerrequisitos
-- Node.js 18+ y npm
-- Java 17+
-- MySQL/MariaDB
-- Maven (incluido en NetBeans)
+### 📋 Prerrequisitos
+Antes de comenzar, asegúrate de tener instalado:
+- **Node.js 18+** y **npm** (para el frontend)
+- **Java 17+** (para el backend)
+- **MySQL/MariaDB** (base de datos)
+- **Maven 3.6+** (para compilar el backend)
+- **Git** (para clonar el repositorio)
 
-### 1. Clonar el repositorio
+### 🚀 Paso 1: Clonar el Repositorio
 ```bash
 git clone https://github.com/tu-usuario/supermercado.git
 cd supermercado
 ```
 
-### 2. Configurar la Base de Datos
+### 🗄️ Paso 2: Configurar la Base de Datos
 ```bash
-# Crear la base de datos
+# 1. Iniciar sesión en MySQL/MariaDB
 mysql -u root -p
+
+# 2. Crear la base de datos
 CREATE DATABASE supermercado;
+
+# 3. Seleccionar la base de datos
 USE supermercado;
+
+# 4. Importar el esquema y datos iniciales
 SOURCE supermercado.sql;
+
+# 5. Verificar que las tablas se crearon correctamente
+SHOW TABLES;
 ```
 
-### 3. Configurar el Backend
+**Nota:** El archivo `supermercado.sql` se encuentra en la raíz del proyecto.
+
+### ⚙️ Paso 3: Configurar el Backend
 ```bash
+# 1. Navegar al directorio del backend
 cd backend
-# Editar application.properties si es necesario
-# Compilar y ejecutar desde NetBeans o:
+
+# 2. Revisar la configuración de la base de datos (opcional)
+# El archivo de configuración está en: src/main/resources/application.properties
+# Por defecto usa: localhost:3306/supermercado con usuario root
+
+# 3. Compilar el proyecto con Maven
+mvn clean install
+
+# 4. Ejecutar el servidor Spring Boot
 mvn spring-boot:run
 ```
 
-El backend estará disponible en `http://localhost:8080`
+**Alternativa:** Puedes importar el proyecto en NetBeans y ejecutarlo directamente desde el IDE.
 
-### 4. Configurar el Frontend
+**Verificación:** El backend estará disponible en `http://localhost:8080`
+- Puedes probar con: `http://localhost:8080/api/categorias`
+
+### 🎨 Paso 4: Configurar el Frontend
 ```bash
+# 1. Abrir una nueva terminal (mantener el backend corriendo)
+
+# 2. Navegar al directorio del frontend
 cd frontend
+
+# 3. Instalar las dependencias de Node.js
 npm install
+
+# 4. Iniciar el servidor de desarrollo de Angular
 npm start
+# o alternativamente:
+ng serve
 ```
 
-El frontend estará disponible en `http://localhost:4200`
+**Verificación:** El frontend estará disponible en `http://localhost:4200`
+
+### 🔐 Paso 5: Iniciar Sesión en la Aplicación
+1. Abre tu navegador en `http://localhost:4200`
+2. Usa las credenciales de prueba:
+   - **Email:** `mariana@gmail.com`
+   - **Cédula:** `1234`
+   - **Rol:** CAJERO
+
+### 📱 Flujo de Trabajo Básico
+1. **Crear Categoría:** Define los tipos de turnos (Cliente normal, Adulto Mayor, Embarazada)
+2. **Crear Turno:** Asigna un turno a una categoría (estado: ESPERA)
+3. **Llamar Turno:** Cambia el estado a ATENDIDO
+4. **Finalizar Turno:** Registra el tiempo de espera (estado: FINALIZADO)
+
+### 🔧 Troubleshooting (Solución de Problemas)
+
+#### Problemas Comunes del Backend
+```bash
+# Error: "Access denied for user 'root'@'localhost'"
+# Solución: Verifica las credenciales en application.properties
+
+# Error: "Communications link failure"
+# Solución: Asegúrate de que MySQL/MariaDB está corriendo
+
+# Error: "Database 'supermercado' doesn't exist"
+# Solución: Ejecuta el script supermercado.sql en MySQL
+```
+
+#### Problemas Comunes del Frontend
+```bash
+# Error: "npm ERR! code ENOENT"
+# Solución: Asegúrate de estar en el directorio frontend/
+
+# Error: "ng: command not found"
+# Solución: Instala Angular CLI globalmente:
+npm install -g @angular/cli
+
+# Error: "Port 4200 is already in use"
+# Solución: Usa otro puerto:
+ng serve --port 4201
+```
+
+#### Problemas de Conexión
+- **CORS:** Si hay errores de CORS, verifica que el backend esté corriendo en el puerto 8080
+- **Base de datos:** Si el frontend no carga datos, verifica la conexión a MySQL y que el script SQL se ejecutó correctamente
 
 ## 🗄️ Estructura del Proyecto
 

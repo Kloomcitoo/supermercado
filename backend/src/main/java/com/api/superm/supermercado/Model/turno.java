@@ -32,6 +32,7 @@ public class turno {
     private LocalDateTime fechaLlamado;
     private LocalDateTime fechaFinalizado;
     private Long tiempoEspera;
+    private Integer vecesSaltado = 0;
     
     @ManyToOne
     @JoinColumn(name = "categoria_id", nullable = false)
@@ -96,6 +97,14 @@ public class turno {
 
     public void setTiempoEspera(Long tiempoEspera) {
         this.tiempoEspera = tiempoEspera;
+    }
+
+    public Integer getVecesSaltado() {
+        return vecesSaltado;
+    }
+
+    public void setVecesSaltado(Integer vecesSaltado) {
+        this.vecesSaltado = vecesSaltado;
     }
 
 
